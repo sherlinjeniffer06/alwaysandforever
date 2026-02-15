@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Always and Forever</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(to bottom right,#ffe6f0,#f5e6ff);
+  text-align:center;
+  padding:30px;
+}
+
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:60px;
+  color:#e75480;
+  margin-bottom:10px;
+}
+
+h2{
+  font-weight:400;
+}
+
+.bouquet{
+  font-size:45px;
+  padding:25px;
+  border-radius:25px;
+  margin:20px auto;
+  display:inline-block;
+  transition:0.5s ease;
+}
+
+.pink{background:#ffd6e7;}
+.cream{background:#fff4e6;}
+.lilac{background:#efe0ff;}
+.white{background:#ffffff;}
+
+.candies{
+  font-size:40px;
+  margin-top:10px;
+}
+
+.message{
+  margin-top:20px;
+  font-size:18px;
+  max-width:500px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+button{
+  padding:12px 25px;
+  border:none;
+  border-radius:25px;
+  background:#e75480;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  margin-top:20px;
+}
+
+.hidden{
+  display:none;
+}
+
+.fade-in{
+  animation:fade 1.5s ease forwards;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Always and Forever</h1>
+<h2>Happy Valentine’s Day Chris 💖</h2>
+
+<div id="intro">
+  <p style="margin-top:40px;font-size:18px;">
+    Sherlin made something special for you 💌  
+    <br><br>
+    Click the button to reveal it.
+  </p>
+
+  <button onclick="revealGift()">Reveal Your Gift 💖</button>
+</div>
+
+<div id="giftContent" class="hidden">
+  <div id="bouquet" class="bouquet"></div>
+  <div id="candies" class="candies"></div>
+  <div id="msg" class="message"></div>
+</div>
+
+<iframe id="music" width="0" height="0" allow="autoplay"></iframe>
+
+<script>
+
+const params=new URLSearchParams(window.location.search);
+
+let flowers=params.get("f")||"";
+let candies=params.get("c")||"";
+let wrapper=params.get("w")||"pink";
+let message=params.get("m")||"";
+let song=params.get("s")||"";
+
+function revealGift(){
+
+  document.getElementById("intro").style.display="none";
+  document.getElementById("giftContent").classList.remove("hidden");
+
+  document.getElementById("bouquet").innerText=decodeURIComponent(flowers);
+  document.getElementById("bouquet").classList.add(wrapper);
+
+  document.getElementById("candies").innerText=decodeURIComponent(candies);
+
+  document.getElementById("msg").innerText=decodeURIComponent(message);
+
+  document.getElementById("bouquet").classList.add("fade-in");
+  document.getElementById("candies").classList.add("fade-in");
+  document.getElementById("msg").classList.add("fade-in");
+
+  if(song.includes("youtube")){
+    let videoID=song.split("v=")[1];
+    if(videoID.includes("&")){
+      videoID=videoID.split("&")[0];
+    }
+
+    document.getElementById("music").src=
+    "https://www.youtube.com/embed/"+videoID+"?autoplay=1";
+  }
+}
+
+</script>
+
+</body>
+</html>
