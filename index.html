@@ -2,118 +2,156 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Always and Forever 💖</title>
+<title>Always and Forever - Studio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
 body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #ffe6f0, #fff5f9);
-  text-align: center;
-  padding: 20px;
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(to bottom right,#ffe6f0,#f5e6ff);
+  text-align:center;
 }
 
-h1 { color: #ff4d88; }
-
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  margin: 20px auto;
-  width: 320px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:55px;
+  margin-top:40px;
+  color:#e75480;
 }
 
-button {
-  font-size: 28px;
-  margin: 5px;
-  border: none;
-  background: none;
-  cursor: pointer;
+.section{
+  background:white;
+  width:90%;
+  max-width:520px;
+  margin:20px auto;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.08);
 }
 
-button:hover {
-  transform: scale(1.2);
+button{
+  padding:8px 15px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  margin:5px;
 }
 
-#bouquet, #jar {
-  font-size: 40px;
-  min-height: 50px;
+.wrapper.active{
+  border:2px solid #e75480;
 }
 
-textarea, input {
-  width: 90%;
-  padding: 8px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:10px;
 }
 
-.create-btn {
-  background: #ff4d88;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 10px;
-  font-size: 16px;
-  margin-top: 10px;
+.card{
+  background:#f8f8f8;
+  padding:10px;
+  border-radius:15px;
+  cursor:pointer;
+}
+
+textarea,input{
+  width:90%;
+  padding:8px;
+  margin-top:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Create a Gift 💖</h1>
+<h1>Always and Forever</h1>
+<h3>Happy Valentine’s Day Chris 💖</h3>
 
-<div class="card">
-  <h3>Build Bouquet 💐</h3>
-  <button onclick="addFlower('🌹')">🌹</button>
-  <button onclick="addFlower('🌷')">🌷</button>
-  <button onclick="addFlower('🌸')">🌸</button>
-  <button onclick="addFlower('🌻')">🌻</button>
-  <div id="bouquet"></div>
+<div class="section">
+
+<h3>Build Your Bouquet (<span id="flowerCount">0</span>/15)</h3>
+
+<h4>Wrapper Style</h4>
+<button class="wrapper" onclick="selectWrapper(this,'pink')">Pastel Pink</button>
+<button class="wrapper" onclick="selectWrapper(this,'cream')">Cream</button>
+<button class="wrapper" onclick="selectWrapper(this,'lilac')">Lilac</button>
+<button class="wrapper" onclick="selectWrapper(this,'white')">White</button>
+
+<div class="grid">
+<div class="card" onclick="toggleFlower('🌸')">🌸<br>Pink Rose</div>
+<div class="card" onclick="toggleFlower('🌹')">🌹<br>Red Rose</div>
+<div class="card" onclick="toggleFlower('🤍')">🤍<br>White Rose</div>
+<div class="card" onclick="toggleFlower('🌻')">🌻<br>Sunflower</div>
+<div class="card" onclick="toggleFlower('🌷')">🌷<br>Tulip</div>
+<div class="card" onclick="toggleFlower('🌼')">🌼<br>Lily</div>
 </div>
 
-<div class="card">
-  <h3>Fill Candy Jar 🍫</h3>
-  <button onclick="addCandy('🍫')">🍫</button>
-  <button onclick="addCandy('🍬')">🍬</button>
-  <button onclick="addCandy('🍭')">🍭</button>
-  <button onclick="addCandy('🤎')">🤎</button>
-  <div id="jar"></div>
 </div>
 
-<div class="card">
-  <h3>Add Message 💌</h3>
-  <textarea id="message" placeholder="Write something special..."></textarea>
-  <input id="song" placeholder="Paste song link 🎵">
-  <br>
-  <button class="create-btn" onclick="createGift()">Create Gift</button>
+<div class="section">
+
+<h3>Fill Candy Jar (<span id="candyCount">0</span>/18)</h3>
+
+<div class="grid">
+<div class="card" onclick="toggleCandy('🍫')">🍫</div>
+<div class="card" onclick="toggleCandy('🍬')">🍬</div>
+<div class="card" onclick="toggleCandy('🤎')">🤎</div>
+<div class="card" onclick="toggleCandy('🍭')">🍭</div>
 </div>
 
-<div id="finalGift"></div>
+</div>
+
+<div class="section">
+<h3>Add Your Message</h3>
+<textarea id="msg" placeholder="Write something for him..."></textarea>
+<input id="song" placeholder="Paste YouTube song link">
+</div>
+
+<button onclick="createLink()">Create Shareable Gift 💖</button>
 
 <script>
-function addFlower(flower) {
-  document.getElementById("bouquet").innerHTML += flower;
+let flowers=[];
+let candies=[];
+let wrapper="pink";
+
+function selectWrapper(btn,type){
+  document.querySelectorAll('.wrapper').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  wrapper=type;
 }
 
-function addCandy(candy) {
-  document.getElementById("jar").innerHTML += candy;
+function toggleFlower(f){
+  if(flowers.includes(f)){
+    flowers=flowers.filter(x=>x!==f);
+  }else if(flowers.length<15){
+    flowers.push(f);
+  }
+  document.getElementById("flowerCount").innerText=flowers.length;
 }
 
-function createGift() {
-  var bouquet = document.getElementById("bouquet").innerHTML;
-  var jar = document.getElementById("jar").innerHTML;
-  var message = document.getElementById("message").value;
-  var song = document.getElementById("song").value;
+function toggleCandy(c){
+  if(candies.includes(c)){
+    candies=candies.filter(x=>x!==c);
+  }else if(candies.length<18){
+    candies.push(c);
+  }
+  document.getElementById("candyCount").innerText=candies.length;
+}
 
-  document.getElementById("finalGift").innerHTML =
-  "<div class='card'>" +
-  "<h2>Your Gift 💖</h2>" +
-  "<div style='font-size:40px'>" + bouquet + "</div>" +
-  "<div style='font-size:40px'>" + jar + "</div>" +
-  "<p>" + message + "</p>" +
-  "<a href='" + song + "' target='_blank'>🎵 Play Song</a>" +
-  "</div>";
+function createLink(){
+  let message=encodeURIComponent(document.getElementById("msg").value);
+  let song=encodeURIComponent(document.getElementById("song").value);
+  let f=encodeURIComponent(flowers.join(""));
+  let c=encodeURIComponent(candies.join(""));
+
+  let finalURL=`gift.html?f=${f}&c=${c}&w=${wrapper}&m=${message}&s=${song}`;
+
+  alert("Copy this link and send to him:\n\n"+window.location.origin+"/"+finalURL);
 }
 </script>
 
