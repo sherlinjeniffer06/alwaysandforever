@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Always and Forever 💖</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffe6f0, #fff5f9);
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #ff4d88;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 20px;
+      margin: 20px auto;
+      width: 320px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    button {
+      font-size: 28px;
+      margin: 6px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.2);
+    }
+
+    #bouquet, #jar {
+      font-size: 40px;
+      min-height: 50px;
+      margin-top: 10px;
+    }
+
+    textarea, input {
+      width: 90%;
+      padding: 8px;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+    }
+
+    .create-btn {
+      background: #ff4d88;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 16px;
+      margin-top: 15px;
+    }
+
+    .final {
+      background: #fff;
+      padding: 20px;
+      border-radius: 20px;
+      margin-top: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    a {
+      color: #ff4d88;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Create a Gift 💖</h1>
+
+<div class="card">
+  <h3>Build Your Bouquet 💐</h3>
+  <button onclick="addFlower('🌹')">🌹</button>
+  <button onclick="addFlower('🌷')">🌷</button>
+  <button onclick="addFlower('🌸')">🌸</button>
+  <button onclick="addFlower('🌻')">🌻</button>
+  <button onclick="clearBouquet()">❌</button>
+  <div id="bouquet"></div>
+</div>
+
+<div class="card">
+  <h3>Fill Your Candy Jar 🍫</h3>
+  <button onclick="addCandy('🍫')">🍫</button>
+  <button onclick="addCandy('🍬')">🍬</button>
+  <button onclick="addCandy('🍭')">🍭</button>
+  <button onclick="addCandy('🤎')">🤎</button>
+  <button onclick="clearJar()">❌</button>
+  <div id="jar"></div>
+</div>
+
+<div class="card">
+  <h3>Add Your Message 💌</h3>
+  <textarea id="message" placeholder="Write something special..."></textarea>
+  <input id="song" placeholder="Paste Spotify/YouTube link 🎵">
+  <button class="create-btn" onclick="createGift()">Create Gift</button>
+</div>
+
+<div id="finalGift"></div>
+
+<script>
+function addFlower(flower) {
+  document.getElementById("bouquet").innerHTML += flower;
+}
+
+function addCandy(candy) {
+  document.getElementById("jar").innerHTML += candy;
+}
+
+function clearBouquet() {
+  document.getElementById("bouquet").innerHTML = "";
+}
+
+function clearJar() {
+  document.getElementById("jar").innerHTML = "";
+}
+
+function createGift() {
+  const bouquet = document.getElementById("bouquet").innerHTML;
+  const jar = document.getElementById("jar").innerHTML;
+  const message = document.getElementById("message").value;
+  const song = document.getElementById("song").value;
+
+  document.getElementById("finalGift").innerHTML =
+  `<div class="final">
+    <h2>Your Gift 💖</h2>
+    <div style="font-size:40px">${bouquet}</div>
+    <div style="font-size:40px">${jar}</div>
+    <p>${message}</p>
+    <a href="${song}" target="_blank">🎵 Play Song</a>
+  </div>`;
+}
+</script>
+
+</body>
+</html>
